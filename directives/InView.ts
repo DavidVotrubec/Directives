@@ -1,3 +1,5 @@
+var angular = require('angular');
+
 function InView($compile: ng.ICompileService, $window: ng.IWindowService, $timeout: ng.ITimeoutService) {
     /// <summary>
     /// This directive checks whether current element is in viewport.
@@ -18,7 +20,10 @@ function InView($compile: ng.ICompileService, $window: ng.IWindowService, $timeo
         restrict: 'AE',
         scope: {
             //action to perform when this element becomes visible
-            inViewAction: '='
+            inViewAction: '=', //mandatory
+
+            //listen on event. When event of this name is captured, it will recheck if element is in viewport
+            triggerOnEvent: '=' //optional
         },
         link: (scope: any, element: JQuery, attrs) => {
 
@@ -37,6 +42,11 @@ function InView($compile: ng.ICompileService, $window: ng.IWindowService, $timeo
             var throttledCheck = throttle(check, 250, null);
             angular.element($window).bind("scroll", throttledCheck);
             angular.element($window).bind("resize", throttledCheck);
+
+            //If triggerOnEvent is defined, then listen for this event and re-check
+            if (scope.triggerOnEvent != undefined && scope.triggerOnEvent != '' && angular.isString(scope.triggerOnEvent)) {
+                scope.$on(scope.triggerOnEvent, check);
+            }
             
             function check() {
                 /// <summary>
