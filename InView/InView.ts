@@ -1,7 +1,19 @@
-// uses module.export
-
 function InView($compile: ng.ICompileService, $window: ng.IWindowService, $timeout: ng.ITimeoutService) {
-    
+    /// <summary>
+    /// This directive checks whether current element is in viewport.
+    /// If yes, then it calls function defined in the in-view-action attribute.
+    /// Ideal candidate for infinite scrolling.
+    /// Example: 
+    /// 
+    /// <product-item ng-if="main.products.length > 0" ng-repeat="p in main.products" product="p"></product-item>
+    ///     
+    /// <div ng-if="main.isLoading">
+    ///     <h3>is loading ...</h3>
+    ///  </div>
+    /// 
+    ///  <in-view in-view-action="main.loadMore" style="min-height: 1px; min-height: 1px;"></in-view>
+    /// </summary>
+
     var definition: ng.IDirective = {
         restrict: 'AE',
         scope: {
