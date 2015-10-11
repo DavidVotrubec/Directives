@@ -1,6 +1,7 @@
 These directives uses the `module.exports` for better reusability.
 You will need to manually declare them as directives, like shown below
-You can use Browserify for it.
+
+I recommend using Browserify for it.
 
 
      //declare your app
